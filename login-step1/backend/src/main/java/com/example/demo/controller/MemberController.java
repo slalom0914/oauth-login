@@ -46,7 +46,10 @@ public class MemberController {
         // 4. 회원가입이 되어 있는지 여부를 파악해서 강제로 회원가입을 시킨다.
         MemberVO mVO = memberService.getMemberDetail(googleProfileDto.getSub());
         if(mVO==null){
-            mVO = memberService.oauthCreate(googleProfileDto.getSub(), googleProfileDto.getEmail(), "GOOGLE");
+            mVO = memberService.oauthCreate(googleProfileDto.getSub()
+                                          , googleProfileDto.getName()
+                                          , "123"
+                                          , googleProfileDto.getEmail(), "GOOGLE");
         }
         // 5. 우리 서비스에서 사용할 JWT토큰 발급하기
 

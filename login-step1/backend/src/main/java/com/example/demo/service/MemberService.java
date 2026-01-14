@@ -16,8 +16,11 @@ public class MemberService {
         return rmVO;
     }
 
-    public MemberVO oauthCreate(String socialId, String email, String socialType) {
+    public MemberVO oauthCreate(String socialId, String username, String passsword
+                              , String email, String socialType) {
         MemberVO pmVO = MemberVO.builder()
+                .username(username)
+                .password(passsword)
                 .email(email)
                 .socialId(socialId)
                 .socialType(socialType)
