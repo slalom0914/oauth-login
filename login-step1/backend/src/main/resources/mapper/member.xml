@@ -5,8 +5,8 @@
         insert into member202601(id,username,password
                                 ,email,role,createDate, socialid, socialtype)
         values(seq_member202601_no.nextval,#{username},#{password},#{email}
-              ,#{role},to_char(sysdate,'YYYY-MM-DD'),#{socialType,jdbcType=VARCHAR}
-              ,#{socialId,jdbcType=VARCHAR} )
+              ,#{role},to_char(sysdate,'YYYY-MM-DD'),#{socialId,jdbcType=VARCHAR}
+              ,#{socialType,jdbcType=VARCHAR} )
     </insert>
     <select id="getMemberDetail" parameterType="com.example.demo.model.MemberVO" resultType="com.example.demo.model.MemberVO">
         SELECT id, username, password, email, role, socialType, socialId

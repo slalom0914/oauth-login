@@ -51,6 +51,9 @@ public class MemberController {
                                           , "123"
                                           , googleProfileDto.getEmail(), "GOOGLE");
         }
+        else{
+            log.info("이미 회원가입이 되어있는 socialId 입니다."+mVO.getSocialId());
+        }
         // 5. 우리 서비스에서 사용할 JWT토큰 발급하기
 
         // 6. 프론트로 내려줄 로그인 결과 구성
