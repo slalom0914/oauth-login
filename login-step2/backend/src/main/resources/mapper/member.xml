@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.memberMapper">
+    <insert id="memberInsert" parameterType="com.example.demo.model.MemberVO">
+        insert into member202601(id,username,password
+                                ,email,role,createDate, socialid, socialtype)
+        values(seq_member202601_no.nextval,#{username},#{password},#{email}
+              ,#{role},to_char(sysdate,'YYYY-MM-DD'),#{socialId,jdbcType=VARCHAR}
+              ,#{socialType,jdbcType=VARCHAR} )
+    </insert>
+    <select id="getMemberDetail" parameterType="com.example.demo.model.MemberVO" resultType="com.example.demo.model.MemberVO">
+        SELECT id, username, password, email, role, socialType, socialId
+          FROM member202601
+         WHERE socialId = ${socialId}
+    </select>
+    <select id="findByEmail" resultType="com.example.demo.model.MemberVO">
+        SELECT * FROM member
+        WHERE email = #{email}
+    </select>
+    <select id="login" parameterType="string" resultType="com.example.demo.model.MemberVO">
+        SELECT id, username, password, role, email, createDate
+        FROM member202601
+        WHERE username = #{value}
+    </select>
+</mapper>
