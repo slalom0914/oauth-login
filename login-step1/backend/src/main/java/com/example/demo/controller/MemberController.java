@@ -3,7 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.dto.GoogleProfileDto;
 import com.example.demo.dto.RedirectDto;
 import com.example.demo.model.AccessTokenVO;
+import com.example.demo.model.MemberVO;
 import com.example.demo.service.GoogleService;
+import com.example.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,8 @@ import java.util.Map;
 public class MemberController {
     // GoogleService의존성 주입
     private final GoogleService googleService;//주의:null초기화 하지 않음
+    private final MemberService memberService;
+
     // http://localhost:8000/member/google/doLogin, {code: '12345678'}
     // 파라미터로 사용되는 @RequestBody은 리액트가 전송하는 객체 리터럴을 받아줌
     @PostMapping("/google/doLogin")
@@ -40,8 +44,12 @@ public class MemberController {
         GoogleProfileDto googleProfileDto =
                 googleService.getGoogleProfile(accessTokenVO.getAccess_token());
         // 4. 회원가입이 되어 있는지 여부를 파악해서 강제로 회원가입을 시킨다.
-
+        MemberVO mVO = memberService.getMemberDetail(googleProfileDto.getSub());
+        if(mVO==null){
+            mVO = memberService.oauthCreate(googleProfileDto.getSub(), googleProfileDto.getEmail(), "GOOGLE");
+        }
         // 5. 우리 서비스에서 사용할 JWT토큰 발급하기
+
         // 6. 프론트로 내려줄 로그인 결과 구성
         Map<String,Object> loginInfo = new HashMap<>();
         loginInfo.put("token",accessTokenVO.getAccess_token());

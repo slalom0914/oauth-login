@@ -8,6 +8,11 @@
               ,#{role},to_char(sysdate,'YYYY-MM-DD'),#{socialtype,jdbcType=VARCHAR}
               ,#{socialidd,jdbcType=VARCHAR} )
     </insert>
+    <select id="getMemberDetail">
+        SELECT id, username, password, email, role, socialType, socialId
+          FROM member202601
+         WHERE socialId = ${socialId}
+    </select>
     <select id="findByEmail" resultType="com.example.demo.model.MemberVO">
         SELECT * FROM member
         WHERE email = #{email}
