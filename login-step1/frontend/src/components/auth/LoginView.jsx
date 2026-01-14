@@ -21,11 +21,17 @@ const LoginView = () => {
         console.log('구글 로그인');
         const googleUrl = "https://accounts.google.com/o/oauth2/v2/auth"
         const googleClientId = `${import.meta.env.VITE_GOOGLE_CLIENTID}`
+        //구글서버에서 요청(인가코드보내줘)을 듣고 응답으로 보내줄 URL 미리 등록해 둠
+        //구글서버에게 요청을 하게 되면 응답페이지 처리에 대한 제어권이 구글에게 넘어감
+        //그래서 미리 응답을 받을 수 있도록 redirecturl을 통해서 쿼리스트링으로
+        //인가코드를 넘겨준다.
+        //인가코드를 받아서(5173번) 스프링 부트 서버(8000번)에 요청을 전달함.
         const googleRedirectUrl = "http://localhost:5173/oauth/google/redirect"
         const googleScope = "openid profile email"
         try {
             const auth_uri = `${googleUrl}?client_id=${googleClientId}&redirect_uri=${googleRedirectUrl}&response_type=code&scope=${googleScope}`
             console.log(auth_uri);
+            // 브라우저 없이 구글 서버에 요청하기
             window.location.href=auth_uri
         } catch (error) {
             console.error("구글 로그인 실패!!!", error);
