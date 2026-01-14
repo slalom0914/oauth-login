@@ -34,6 +34,7 @@ public class MemberController {
         log.info("redirectDto:{}",redirectDto.getCode());
         // 2. 인가코드로 구글 Access Token 발급 받기
         AccessTokenVO accessTokenVO = googleService.getAccessToken(redirectDto.getCode());
+        log.info("구글서버가 보내준 AccessToken:{}",accessTokenVO.getAccess_token());
         // access token은 구글 API를 호출할 수 있는 열쇠
         // 3. Access Token으로 구글 사용자 프로필 정보 가져오기
         GoogleProfileDto googleProfileDto =
@@ -43,6 +44,7 @@ public class MemberController {
         // 5. 우리 서비스에서 사용할 JWT토큰 발급하기
         // 6. 프론트로 내려줄 로그인 결과 구성
         Map<String,Object> loginInfo = new HashMap<>();
+        loginInfo.put("token",accessTokenVO.getAccess_token());
         return new ResponseEntity<>(loginInfo, HttpStatus.OK);
     }//end of doLogin
     // http://localhost:8000/member/kakao/doLogin
