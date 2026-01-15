@@ -23,7 +23,7 @@ const JoinPage = () => {
   //-> http://localhost:8000/member/memberInsert
   const handleSignup = async () => {
     try{
-      const response = await axios.post(`${import.meta.env.VITE_SPRING_IP}member/memberInsert`)
+      const response = await axios.post(`${import.meta.env.VITE_SPRING_IP}member/memberInsert`, formData)
       //서버에서 응답으로 받는 값이 1이면 등록 성공, 0이면 등록 실패
       console.log(response)
       navigate('/login')

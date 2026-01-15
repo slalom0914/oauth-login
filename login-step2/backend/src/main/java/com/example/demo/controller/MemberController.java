@@ -29,7 +29,7 @@ public class MemberController {
 
     // http://localhost:8000/member/memberInsert,
     @PostMapping("/memberInsert")
-    public ResponseEntity<?> insertMember(@RequestBody MemberVO memberVO) {
+    public ResponseEntity<?> memberInsert(@RequestBody MemberVO memberVO) {
         int result = -1;
         result = memberService.memberInsert(memberVO);
         //return new ResponseEntity<>(result, HttpStatus.CREATED);

@@ -4,6 +4,8 @@ import com.example.demo.dao.MemberDao;
 import com.example.demo.model.MemberVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Log4j2
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberDao memberDao;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     public MemberVO getMemberDetail(String socialId) {
         MemberVO rmVO = memberDao.getMemberDetail(socialId);
         return rmVO;
@@ -34,6 +37,7 @@ public class MemberService {
         log.info("memberInsert");
         log.info("memberVO:{}", memberVO);
         int result = -1;
+        memberVO.setPassword(bCryptPasswordEncoder.encode(memberVO.getPassword()));
         result = memberDao.memberInsert(memberVO);
         return result;
     }
