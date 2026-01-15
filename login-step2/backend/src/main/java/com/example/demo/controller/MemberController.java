@@ -28,7 +28,13 @@ public class MemberController {
     private final MemberService memberService;
 
     // http://localhost:8000/member/memberInsert,
-    
+    @PostMapping("/memberInsert")
+    public ResponseEntity<?> insertMember(@RequestBody MemberVO memberVO) {
+        int result = -1;
+        result = memberService.memberInsert(memberVO);
+        //return new ResponseEntity<>(result, HttpStatus.CREATED);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }//end of insertMember
 
     // http://localhost:8000/member/google/doLogin, {code: '12345678'}
     // 파라미터로 사용되는 @RequestBody은 리액트가 전송하는 객체 리터럴을 받아줌

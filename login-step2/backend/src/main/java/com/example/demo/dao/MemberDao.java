@@ -18,10 +18,11 @@ public class MemberDao {
         return rmVO;
     }//end of getMemberDetail
 
-    public void memberInsert(MemberVO pmVO) {
+    public int memberInsert(MemberVO pmVO) {
         log.info("memberInsert:"+pmVO);
         int result = -1;
         result = sqlSessionTemplate.insert("memberInsert", pmVO);
         log.info("result:"+result);//1이면 입력 성공, 0이면 입력 실패
+        return result;
     }//end of memberInsert
 }
