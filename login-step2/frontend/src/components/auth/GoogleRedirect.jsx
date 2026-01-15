@@ -13,8 +13,13 @@ const GoogleRedirect = () => {
       const response = await axios.post(`${import.meta.env.VITE_SPRING_IP}member/google/doLogin`,{code: code})
       //스프링 부트에서 보내준 Access Token 이다.
       const token = response.data.token 
+      const email = response.data.email
+      const name = response.data.name
       console.log("Access Token : "+token)
-      localStorage.setItem("token", token)
+      window.localStorage.setItem("token", token)
+      window.localStorage.setItem("email", email)//구글 Profile정보 나온 이메일
+      window.localStorage.setItem("name", name)//구글 Profile정보 나온 이름
+
       //토큰이 생성되면 홈화면으로 이동
       if(token){
         navigate("/home")
