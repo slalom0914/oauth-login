@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.GoogleProfileDto;
+import com.example.demo.dto.MemberLoginDto;
 import com.example.demo.dto.RedirectDto;
 import com.example.demo.model.AccessTokenVO;
 import com.example.demo.model.MemberVO;
@@ -35,6 +36,19 @@ public class MemberController {
         //return new ResponseEntity<>(result, HttpStatus.CREATED);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }//end of insertMember
+    // front와 backend가 서로 이종간이다.
+    // backend에서는 세션을 사용할 수 있지만 front에서는 세션을 사용불가
+    // http://localhost:8000/member/doLogin
+    @PostMapping("/doLogin")
+    public ResponseEntity<?> doLogin(@RequestBody MemberLoginDto memDto) {
+        MemberVO memberVO = memberService.login(memDto);
+        String jwtToken = null;//TODO - 토큰 프로바이더 추가
+        Map<String, Object> loginInfo = new HashMap<>();
+        loginInfo.put("id", 17);
+        loginInfo.put("token", jwtToken);
+        return new ResponseEntity<>(loginInfo, HttpStatus.OK);
+    }//end of doLogin
+
 
     // http://localhost:8000/member/google/doLogin, {code: '12345678'}
     // 파라미터로 사용되는 @RequestBody은 리액트가 전송하는 객체 리터럴을 받아줌
