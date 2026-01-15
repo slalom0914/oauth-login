@@ -6,6 +6,7 @@ import com.example.demo.dto.RedirectDto;
 import com.example.demo.model.AccessTokenVO;
 import com.example.demo.model.MemberVO;
 import com.example.demo.service.GoogleService;
+import com.example.demo.service.KakaoService;
 import com.example.demo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -26,6 +27,7 @@ import java.util.Map;
 public class MemberController {
     // GoogleService의존성 주입
     private final GoogleService googleService;//주의:null초기화 하지 않음
+    private final KakaoService kakaoService;
     private final MemberService memberService;
 
     // http://localhost:8000/member/memberInsert,
@@ -91,6 +93,7 @@ public class MemberController {
     public ResponseEntity<?> kakaoLogin(@RequestBody RedirectDto redirectDto){
         log.info("doLogin");
         log.info("redirectDto:{}",redirectDto.getCode());
+        AccessTokenVO accessTokenVO = kakaoService.getAccessToken(redirectDto.getCode());
         return new ResponseEntity<>(redirectDto, HttpStatus.OK);
     }//end of doLogin
 }

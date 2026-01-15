@@ -6,7 +6,7 @@ const KakaoRedirect = () => {
   console.log(code)
   useEffect(()=>{
     const kakaoLogin = async() => {
-      const response = await axios.post('http://localhost:8000/member/kakao/doLogin',{code: code})
+      const response = await axios.post(`${import.meta.env.VITE_SPRING_IP}member/kakao/doLogin`,{code: code})
       console.log(response)
     }
     kakaoLogin()

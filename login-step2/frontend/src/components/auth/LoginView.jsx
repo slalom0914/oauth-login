@@ -42,7 +42,7 @@ const LoginView = () => {
     const loginK = async () => {
         console.log('카카오로그인');
         const kakaoUrl = "https://kauth.kakao.com/oauth/authorize"
-        const kakaoClientId = "4b140cf1d4428a43b2d0318382e7b264" //rest api key
+        const kakaoClientId = `${import.meta.env.VITE_KAKAO_CLIENTID}` //rest api key
         const kakaoRedirectUrl = "http://localhost:5173/oauth/kakao/redirect"
         try{
             const auth_uri = `${kakaoUrl}?client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUrl}&response_type=code`
