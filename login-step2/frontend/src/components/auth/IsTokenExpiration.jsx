@@ -32,13 +32,26 @@ const IsTokenExpiration = (token) => {
         console.log(remainTime)
 
         //6. 만료가 60초 보다 작거나 같으면 토큰을 연장하겠습니까? 라고 묻는다.
-
+        if(remainTime <= 60 && !isUserResponsed){
+          const userAgreed = window.confirm('토큰을 연장하겠습니까?') //확인 or 취소
+          if(userAgreed){
+            setIsUserResponsed(true)
+            //TODO - 사용자가 승인했다면 refresh token을 사용하여 access token 갱신처리
+            // 재발급 성공시 로컬 스토리지에 access token/refresh token저장
+            // isUserResponsed를 false로 변경함.
+            // 다시 false로 변경하는 이유는 이번에 연장을 했으니 다음번에 또 만료 임박시 
+            // 토큰 연장 창을 다시 띄울 수 있도록 함
+            // 재발급이 실패시  강제 로그아웃으로 처리한다.
+            // 주기적으로 토큰 만료 여부를 체크 하기 - 15초간격
+            const interval = setInterval(checkTokenExpiration, 1000*15);
+            // cleanup함수 처리
+            return () => clearInterval(interval)
+          }
+        }
       }//end of else 
-
-
     }
     checkTokenExpiration()
-  },[])
+  },[token])
 
   return isTokenExpired
 }
