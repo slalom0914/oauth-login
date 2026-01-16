@@ -51,6 +51,7 @@ public class MemberService {
         //사용자가 입력한 비번과 DB에서 꺼낸 비번을 같은지 비교해야 한다.
         // BCryptPasswordEncoder가 제공하는 matches():boolean메서드의 파라미터로
         // 사용자가 입력한 비번과 DB에서 꺼내온 비번을 비교하고 판정을 해줌
+        rmemVO = memberDao.getMemberEmail(memDto);
         return rmemVO;
     }
 }

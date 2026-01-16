@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +18,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private final JwtTokenFilter jwtTokenFilter;
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -36,6 +39,8 @@ public class SecurityConfig {
                 //특정 url패턴에 대해서는 인증처리(Authentication객체 생성) 제외
                 .authorizeHttpRequests(a-> a.requestMatchers("/member/memberInsert", "/member/doLogin"
                         , "/member/google/doLogin", "/member/kakao/doLogin").permitAll().anyRequest().authenticated())
+                .addFilterBefore(jwtTokenFilter,
+                        UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
     @Bean

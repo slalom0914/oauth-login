@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.JwtTokenProvider;
 import com.example.demo.dto.GoogleProfileDto;
 import com.example.demo.dto.MemberLoginDto;
 import com.example.demo.dto.RedirectDto;
@@ -25,6 +26,7 @@ import java.util.Map;
 @RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberController {
+    private final JwtTokenProvider jwtTokenProvider;
     // GoogleService의존성 주입
     private final GoogleService googleService;//주의:null초기화 하지 않음
     private final KakaoService kakaoService;
@@ -42,12 +44,18 @@ public class MemberController {
     // backend에서는 세션을 사용할 수 있지만 front에서는 세션을 사용불가
     // http://localhost:8000/member/doLogin
     @PostMapping("/doLogin")
-    public ResponseEntity<?> doLogin(@RequestBody MemberLoginDto memDto) {
+    public ResponseEntity<?> doLogin(@RequestBody MemberLoginDto memDto) {//email, password
         MemberVO memberVO = memberService.login(memDto);
+        log.info("memberVO:{}", memberVO);
         String jwtToken = null;//TODO - 토큰 프로바이더 추가
+        jwtToken = jwtTokenProvider.createToken(memberVO.getEmail(), memberVO.getRole());
+        log.info("jwtToken:{}", jwtToken);
         Map<String, Object> loginInfo = new HashMap<>();
-        loginInfo.put("id", 17);
+        loginInfo.put("id", memberVO.getId());
         loginInfo.put("token", jwtToken);
+        loginInfo.put("role", memberVO.getRole());
+        loginInfo.put("email", memberVO.getEmail());
+        loginInfo.put("username", memberVO.getUsername());
         return new ResponseEntity<>(loginInfo, HttpStatus.OK);
     }//end of doLogin
 

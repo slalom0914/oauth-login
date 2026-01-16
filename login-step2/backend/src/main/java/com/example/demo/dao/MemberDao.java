@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import com.example.demo.dto.MemberLoginDto;
 import com.example.demo.model.MemberVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -25,4 +26,11 @@ public class MemberDao {
         log.info("result:"+result);//1이면 입력 성공, 0이면 입력 실패
         return result;
     }//end of memberInsert
+    //커스텀 로그인(네이티브)
+    public MemberVO getMemberEmail(MemberLoginDto memDto) {
+        log.info("memberEmail:"+memDto);
+        MemberVO rmVO = null;
+        rmVO = sqlSessionTemplate.selectOne("getMemberEmail", memDto);
+        return rmVO;
+    }//end of getMemberEmail
 }
