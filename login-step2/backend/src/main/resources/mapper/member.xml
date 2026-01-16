@@ -14,7 +14,7 @@
          WHERE socialId = ${socialId}
     </select>
     <select id="getMemberEmail" resultType="com.example.demo.model.MemberVO" parameterType="com.example.demo.dto.MemberLoginDto">
-        SELECT id, username, email, role, socialType, socialId, password FROM member
+        SELECT id, username, email, role, socialType, socialId, password FROM member202601
         WHERE email = #{email}
     </select>
     <select id="login" parameterType="string" resultType="com.example.demo.model.MemberVO">
