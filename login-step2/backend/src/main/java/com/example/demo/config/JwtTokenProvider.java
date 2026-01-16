@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.model.MemberVO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,6 +10,7 @@ import java.util.Base64;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Date;
+import java.util.function.Function;
 
 /*
 JWT 토큰을 발급하는 스프링 컴포넌트(싱글톤)
@@ -55,5 +57,45 @@ public class JwtTokenProvider {
                 .signWith(SECRET_KEY)
                 .compact();
         return token;
+    }//end of createToken
+    /*
+    AccessToken 재발급에 사용(유효기간이 더 길다 - 여기서는 7일)
+     */
+    public String createRefreshToken(String email, String role) {
+        Claims claims = Jwts.claims().setSubject(email);//주된 정보는 이메일로함
+        claims.put("role", role);
+        Date now = new Date();
+        String token = Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now) //발행시간
+                //getTime()은 밀리세크 단위이다.
+                //만료 시간을 7일로 설정하기
+                .setExpiration(new Date(now.getTime() + expiration*1000L*60*60*24*7))
+                .signWith(SECRET_KEY)
+                .compact();
+        return token;
+    }//end of createToken
+    //subject를 email로 쓴다.
+    public String extractEmail(String token) {
+        //Claims::getSubject - 람다식
+        return extractClaim(token, Claims::getSubject);
+    }//end of extractEmail
+    //토큰에서 특정 값을 꺼내는 공용 메서드
+    //<T> : 이 메서드는 T라는 타입을 사용한다.
+    //아직 타입을 정하지 않은 반환타입을 T로 놓음.
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolvers){
+        final Claims claims = extractAllClaims(token);//서명 검증 + payload
+        return claimsResolvers.apply(claims);
+    }//end of extractClaim
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody();
+    }
+    public boolean isTokenExpired(String token) {
+        return extractClaim(token, Claims::getExpiration).before(new Date());
+    }
+    public boolean isTokenValid(String token, MemberVO pmemVO) {
+        final String email =  extractEmail(token);
+        return (email.equals(pmemVO.getEmail()) && !isTokenExpired(token));
     }
 }
