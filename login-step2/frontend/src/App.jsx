@@ -8,7 +8,7 @@ function App() {
   const token = window.localStorage.getItem('token')
   //TODO - 토큰 유효시간 체크 - 파기/유지
   const isTokenExpire = IsTokenExpiration(token)
-  
+  console.log(isTokenExpire)// true이면 만료, false이면 유효
   return (
     <>
       <Routes>
