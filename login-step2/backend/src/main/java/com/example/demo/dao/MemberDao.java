@@ -31,6 +31,7 @@ public class MemberDao {
         log.info("memberEmail:"+memDto);
         MemberVO rmVO = null;
         rmVO = sqlSessionTemplate.selectOne("getMemberEmail", memDto);
+        log.info(rmVO);
         return rmVO;
     }//end of getMemberEmail
 }

@@ -7,18 +7,18 @@ const Header = () => {
   const navigate = useNavigate()
   //로그인 상태 관리 - false이면 로그아웃버튼이 보이지 않음
   const [email, setEmail] = useState('')
-  const [name, setName] = useState('')
+  const [username, setUserName] = useState('')
   //리액트 - 동기화 - 새로 그려진다. - 언제?
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   //insert here
   useEffect (() => {
-    const token = window.localStorage.getItem("token")
+    const token = window.localStorage.getItem("accessToken")
     const email = window.localStorage.getItem("email")
-    const name = window.localStorage.getItem("name")
+    const name = window.localStorage.getItem("username")
     if(token){//access token이 존재하면 로그인을 하였다.
       setIsLoggedIn(true)
       setEmail(email)
-      setName(name)
+      setUserName(name)
     }
   },[])
   const onLogout = () => {

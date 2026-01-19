@@ -17,6 +17,8 @@ public class AuthenticationService {
     private final JwtTokenProvider jwtTokenProvider;
     public JwtAuthenticationResponse signin(MemberLoginDto memDto) {
         MemberVO rmemVO = memberService.getMemberEmail(memDto);
+        long id = rmemVO.getId();
+        String username = rmemVO.getUsername();
         String email = rmemVO.getEmail();
         String role = rmemVO.getRole();
         String accessToken = jwtTokenProvider.createToken(email, role);
@@ -27,6 +29,8 @@ public class AuthenticationService {
         jaResponse.setAccessToken(accessToken);
         jaResponse.setRole(role);
         jaResponse.setEmail(email);
+        jaResponse.setId(id);
+        jaResponse.setUsername(username);
         return jaResponse;
     }//end of signin
     public JwtAuthenticationResponse refreshToken(String token) {
