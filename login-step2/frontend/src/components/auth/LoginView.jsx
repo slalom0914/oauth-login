@@ -79,10 +79,12 @@ const LoginView = () => {
     }    
     const loginE = async() => {
         try {
-            const response = await axios.post(`${import.meta.env.VITE_SPRING_IP}member/doLogin`, tempUser)
+            const response = await axios.post(`${import.meta.env.VITE_SPRING_IP}auth/signin`, tempUser)
             console.log(response.data)
             window.localStorage.setItem("id", response.data.id)
-            window.localStorage.setItem("token", response.data.token)
+            window.localStorage.setItem("accessToken", response.data.accessToken)
+            window.localStorage.setItem("refreshToken", response.data.refreshToken)
+            window.localStorage.setItem("username", response.data.username)
             window.localStorage.setItem("email", response.data.email)
             navigate("/home")
         } catch (error) {
