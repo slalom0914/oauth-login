@@ -9,7 +9,7 @@ function App() {
   const navigate = useNavigate()
   //token상태를 관리하기 위해서 useState로 변경하기
   const [token, setToken] = useState(()=>{
-    const token = window.localStorage.getItem('token')
+    const token = window.localStorage.getItem('accessToken')
     return token
   })
   //TODO - 토큰 유효시간 체크 - 파기/유지

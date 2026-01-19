@@ -12,6 +12,7 @@ import { RefreshTokenDB } from '../../service/authApi';
  * @returns {boolean} isTokenExpired => 토큰이 만료되었는지 여부
  */
 const useTokenExpiration = (token) => {
+  console.log(token)
   const navigate = useNavigate();
 
   /**
